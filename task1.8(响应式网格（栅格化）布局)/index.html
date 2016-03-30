@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/main.css">
+	<style>
+	div{
+		height: 50px;
+	}
+	.container{}
+    .container{
+    margin-bottom: 20px;
+   	border: 1px solid;
+   }
+  .container .row div{
+   	/*background-color: #ccc;*/
+   	border: 1px solid olive;
+   }
+   [class*='col-']{
+   	margin-bottom: 20px;
+   }
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-6 col-sm-4"></div>
+			<div class="col-xs-6 col-sm-4"></div>
+			<div class="col-xs-12 col-sm-4"></div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-3 col-sm-3"></div>
+			<div class="col-xs-6 col-sm-6"></div>
+			<div class="col-xs-3 col-sm-3"></div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-2 col-sm-1"></div>
+			<div class="col-xs-2 col-sm-1"></div>
+			<div class="col-xs-8 col-sm-2"></div>
+			<div class="col-xs-3 col-sm-2"></div>
+			<div class="col-xs-3 col-sm-6"></div>
+		</div>
+	</div>
+</body>
+</html>
