@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>task1.10</title>
+	<style>
+	body{
+		padding: 20px 20px;
+	}
+    .container{
+    /*border:1px solid #ccc; */
+    /*height: 500px;*/
+    display: -webkit-flex;
+    display: flex;
+
+    flex-direction:row;
+    flex-wrap:nowrap;
+    align-content:flex-start;
+    justify-content: space-between;
+    align-items: center;
+    }
+    .b{
+      width: 150px;
+      /*margin: auto;*//*水平垂直对齐最简单的方式*/
+      border:1px solid #f00;
+      	margin-bottom: 20px;
+    }
+    .b:nth-child(1){
+    	height: 120px;
+    }
+     .b:nth-child(2){
+    	height: 100px;
+    	/*order:1;*/
+    }
+     .b:nth-child(3){
+    	height: 40px;
+    }
+    .b:nth-child(4){
+    	height: 200px;
+    	border: 1px solid #0f0;
+    }
+
+    @media (min-width:640px){
+     /*默认设置*/
+    }
+
+    @media (max-width:640px){
+    	 .b:nth-child(4){
+         	order:-1;/*需要设置负值*/
+         }
+        .container{
+		 align-items: flex-start;
+		 justify-content: space-between;
+		 flex-wrap:wrap;
+        }
+    }
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="b"></div>
+		<div class="b"></div>
+		<div class="b"></div>
+		<div class="b"></div>
+	</div>
+</body>
+</html>
