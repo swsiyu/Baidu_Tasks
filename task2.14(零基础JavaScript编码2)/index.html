@@ -39,6 +39,8 @@ var aqiData = [
   } 
 
   var list = getObj("aqi-list");
+  //清空list
+  list.innerHTML="";
   //排序
   aqiData=aqiData.sort(function(a,b){return b[1]-a[1]});
   var i=0;
@@ -50,7 +52,7 @@ var aqiData = [
       list.appendChild($li);
     }
   });
-  
+
 })();
 
 </script>
