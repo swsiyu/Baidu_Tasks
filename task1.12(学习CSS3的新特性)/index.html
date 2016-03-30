@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>task1.12</title>
+	<style>
+	*{margin:0;padding: 0;}
+    body{padding: 20px;}
+    table{
+    	width: 300px;
+    	border-collapse:collapse;
+    }
+    table td{
+    	text-align: center;
+    }
+    /*设置奇数行，注意nth-child是从1开始给子元素编号*/
+    table tr:nth-child(odd){
+    	/*浅颜色*/
+    	background-color: #aaa;
+    }
+    table tr:nth-child(even){
+    	/*深颜色*/
+    	background-color: #eee;
+    }
+    table tr:nth-child(1){
+        background-color: #000;
+        color: white;
+    }
+    table tr:nth-child(2),table tr:nth-child(3),table tr:nth-child(4){
+        color:red;
+    }
+    input{width: 100px;height: 15px;margin: 20px 0;transition: width,2s;}
+    input:focus{
+    	width: 200px;
+    }
+    .banner-container{
+    	width: 300px;
+    	height: 100px;
+    	position: relative;
+    	/*border: 1px solid red;*/
+    	overflow: hidden;
+    }
+    .banner-container ul {
+    	width: 300%;
+    	height: 100%;
+    	position: relative;
+    	transition: left 1s;
+    	left:0;
+    }
+    .banner-container ul li{
+    	width: 300px;
+    	height: 100px;
+        float:left;
+    	list-style: none;	
+    }
+    .banner-container ul li:nth-child(1){
+        background-color:#f00;
+    }
+     .banner-container ul li:nth-child(2){
+        background-color:#0f0;
+    }
+     .banner-container ul li:nth-child(3){
+        background-color:#00f;
+    }
+    .banner-controller{
+        width: 105px;
+        position: absolute;
+        top:60%;
+        right:10%;
+        /*border:1px solid red;*/
+    }
+    .banner-controller a{
+    	text-decoration: none;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        text-align: center;
+        background-color: #ddd;
+        opacity: 0.7;
+        color: gray;
+        float: left;
+        margin-left: 10px;
+    }
+     .banner-controller a:hover{
+     	background-color: #bbb;
+     	opacity: 1;
+     	color: black;
+     }
+    #i1:target ~ ul{
+    left:0;
+   }
+    #i2:target ~ ul{
+    left: -100%;
+   }
+    #i3:target ~ ul{
+    left: -200%;
+   }
+	</style>
+</head>
+<body>
+<table border="1">
+	<tr>
+		<th>排名</th>
+		<th>网站</th>
+		<th>热度</th>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td>百度前端技术学院</td>
+		<td>13333</td>
+	</tr>
+	<tr>
+		<td>2</td>
+		<td>百度前端技术学院</td>
+		<td>12423</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>百度前端技术学院</td>
+		<td>11453</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>百度前端技术学院</td>
+		<td>10042</td>
+	</tr>
+	<tr>
+		<td>5</td>
+		<td>百度前端技术学院</td>
+		<td>9423</td>
+	</tr>
+	<tr>
+		<td>6</td>
+		<td>百度前端技术学院</td>
+		<td>8545</td>
+	</tr>
+	<tr>
+		<td>7</td>
+		<td>百度前端技术学院</td>
+		<td>7934</td>
+	</tr>
+	<tr>
+		<td>8</td>
+		<td>百度前端技术学院</td>
+		<td>5643</td>
+	</tr>
+	<tr>
+		<td>9</td>
+		<td>百度前端技术学院</td>
+		<td>5000</td>
+	</tr>
+	<tr>
+		<td>10</td>
+		<td>百度前端技术学院</td>
+		<td>4000</td>
+	</tr>
+</table>
+	<input type="text" placeholder="click me"/>
+	<div class="banner-container">
+			<span id="i1"></span>
+			<span id="i2"></span>
+			<span id="i3"></span>
+		<ul>
+			<li ></li>
+			<li ></li>
+			<li ></li>
+		</ul>
+		<div class="banner-controller">
+			<a href="#i1">1</a>
+			<a href="#i2">2</a>
+			<a href="#i3">3</a>
+		</div>
+	</div>
+</body>
+</html>
