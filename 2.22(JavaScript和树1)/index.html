@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>2.22</title>
+	<style>
+	*{margin: 0;padding: 0;}
+	body{padding: 10px 20px;}
+	div{padding: 20px; border: 1px solid;float: left;}
+    div.ec{
+    	width: 50px;
+    	height: 20px;
+    	border: 1px solid;
+    }
+    [class *='e']:nth-child(1){
+      margin-right:20px;
+    }
+	</style>
+	<script>
+	//显示颜色变化
+	function setColor(array,interval){
+	   var clone=array.concat();//保存副本. 注意：数组是特殊的对象,是引用类型
+      setInterval(function(){ 
+      	if(array.length==0) array=clone.concat();
+         for(var j in clone){
+       	   clone[j].style.backgroundColor="#fff";
+          }
+       	array[0].style.backgroundColor="#00f";
+       	array.shift();
+       	console.log(array);
+      },interval)
+
+	}
+	//删除由于html的缩进产生的text节点
+	function deleteText(ele){
+		// console.log(ele);
+		if(!ele || !ele.childNodes || ele.childNodes.length==0) return;
+		for(var i in ele.childNodes){
+			 // console.log(ele.childNodes,i);
+			if(parseInt(i).toString()=="NaN") continue;			
+			if(ele.childNodes[i].nodeName=="#text")
+				{
+					ele.removeChild(ele.childNodes[i]);
+				}
+			deleteText(ele.childNodes[i]);
+		}
+		return;
+	}
+	//按序存储遍历后的元素
+	var arr=[];
+	//先序遍历
+	function preOrder(ele){
+        arr.push(ele);
+        if(ele.childNodes[0])
+        	preOrder(ele.childNodes[0])
+        if(ele.childNodes[1])
+        	preOrder(ele.childNodes[1])
+	}
+	//中序遍历
+	function inOrder(ele){
+        if(ele.childNodes[0])
+        	inOrder(ele.childNodes[0])
+        arr.push(ele);
+        if(ele.childNodes[1])
+        	inOrder(ele.childNodes[1])
+	}
+	//后序遍历
+	function postOrder(ele){
+        if(ele.childNodes[0])
+        	postOrder(ele.childNodes[0])
+        if(ele.childNodes[1])
+        	postOrder(ele.childNodes[1])
+        arr.push(ele);
+	}
+    window.onload=function(){
+    	 var root = document.getElementById("root");
+    	 deleteText(root);
+    	 inOrder(root);
+    	 // preOrder(root);
+    	 // postOrder(root);
+    	 console.log(arr);
+    	 setColor(arr,1000);
+    }
+	</script>
+</head>
+<body>
+	<div class id="root">
+		<div class="ef">
+			<div class="ee">
+				<div class="ec"></div>
+				<div class="ec"></div>
+			</div>
+			<div class="ee">
+				<div class="ec"></div>
+				<div class="ec"></div>
+			</div>
+		</div>
+		<div  class="ef">
+			<div  class="ee">
+				<div class="ec"></div>
+				<div class="ec"></div>
+			</div>
+			<div  class="ee">
+				<div class="ec"></div>
+				<div class="ec"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
