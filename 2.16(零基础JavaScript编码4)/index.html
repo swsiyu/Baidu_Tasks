@@ -1,0 +1,140 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 01</title>
+    <style>
+    *{margin:0;padding:0;}
+    body{padding: 20px;}
+    table{width: 300px;border-collapse: collapse;margin:30px 0;}
+    table#src-table tr:nth-child(3), table#aqi-table tr td:nth-child(3){
+      text-align: center;
+    }
+    table button{ color:black;background-color:#ddd; height: 25px; border-radius: 0px;outline: none;}
+    table#src-table td{
+      height: 25px;
+      line-height: 25px;
+    }
+    table#src-table input{
+      height: 24px;
+      width: 100%;
+    }
+    table#aqi-table{text-align: center;}
+    </style>
+  </head>
+<body>
+
+    <table id="src-table" border="1">
+      <tr><td> <label>城市名称: </label></td><td><input id="aqi-city-input" type="text" placeHolder="请输入城市名字"></td></tr>
+      <tr><td><label>空气质量指数：</label></td><td><input id="aqi-value-input" type="text" placeHolder="请输入整数"></td></tr>
+      <tr><td></td><td><button id="add-btn">确认添加</button></td></tr>
+    </table>
+    <!-- <label>城市名称：<input id="aqi-city-input" type="text" placeHolder="请输入城市名字"></label>
+    <br>
+    <label>空气质量指数：<input id="aqi-value-input" type="text" placeHolder="请输入整数"></label>
+    <br>
+    <button id="add-btn">确认添加</button>-->
+  <table id="aqi-table" border="1">
+  <!-- 
+    <tr>
+      <td>城市</td><td>空气质量</td><td>操作</td>
+    </tr>
+    <tr>
+      <td>北京</td><td>90</td><td><button>删除</button></td>
+    </tr>
+    <tr>
+      <td>北京</td><td>90</td><td><button>删除</button></td>
+    </tr>
+   -->
+  </table>
+
+  <script>
+  (function(){
+  /**
+ * aqiData，存储用户输入的空气指数数据
+ * 示例格式：
+ * aqiData = {
+ *    "北京": 90,
+ *    "上海": 40
+ * };
+ */
+function getObj(id){
+  return document.getElementById(id);
+}
+function getElem(name){
+  return document.createElement(name);
+}
+var aqiData = {};
+
+/**
+ * 从用户输入中获取数据，向aqiData中增加一条数据
+ * 然后渲染aqi-list列表，增加新增的数据
+ */
+function addAqiData() {
+   var key,value;
+   key=getObj("aqi-city-input").value.trim();
+   value=getObj("aqi-value-input").value.trim();
+   if(key==""||value=="")
+    {alert("请填写完整的数据");return;}
+   aqiData[key]=value;
+}
+
+/**
+ * 渲染aqi-table表格
+ */
+function renderAqiList() {
+  getObj("aqi-table").innerHTML="<tr><th>城市</th><th>空气质量</th><th>操作</th></tr>";
+
+  for(var i in aqiData){
+    var $tr=getElem("tr");
+    $tr.innerHTML="<td>"+i+"</td><td>"+aqiData[i]+"</td><td><button>删除</button></td>";
+    getObj("aqi-table").appendChild($tr);
+  }
+}
+
+/**
+ * 点击add-btn时的处理逻辑
+ * 获取用户输入，更新数据，并进行页面呈现的更新
+ */
+function addBtnHandle() {
+  addAqiData();
+  renderAqiList();
+}
+// 获取事件目标
+function getEventTarget(e) {
+  e = e || window.event;
+  return e.target || e.srcElement;
+}
+
+/**
+ * 点击各个删除按钮的时候的处理逻辑
+ * 获取哪个城市数据被删，删除数据，更新表格显示
+ */
+function delBtnHandle(e) {
+ var target = getEventTarget(e);
+ if(target.tagName.toLowerCase() =='button') 
+  {
+    var city=target.parentNode.parentNode.childNodes[0].innerText;
+    delete aqiData[city];
+  }
+  renderAqiList();
+}
+
+
+function init() {
+
+  // 在这下面给add-btn绑定一个点击事件，点击时触发addBtnHandle函数
+   getObj("add-btn").addEventListener("click",addBtnHandle);
+
+  // 想办法给aqi-table中的所有删除按钮绑定事件，触发delBtnHandle函数
+  // 用事件代理给事件目标的父元素添加事件，利用事件冒泡在父元素截获事件并处理
+   getObj("aqi-table").addEventListener("click",delBtnHandle);
+}
+
+init();
+
+  }());
+
+  </script>
+</body>
+</html>
