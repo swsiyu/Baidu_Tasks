@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>2.23</title>
+	<style>
+	*{margin: 0;padding: 0;outline: none;}
+	body{padding: 10px;min-width: 1366px;}
+	div{padding: 15px; border: 1px solid;float: left;}
+
+    [class ^='e']:nth-child(n){
+       margin-right:10px;
+    }
+    .search{margin-top: 25px;}
+    .search input{height: 20px;}
+    .search button{height: 25px;width:80px;background-color: #bbb}
+	</style>
+	<script>
+	var sh;
+	//显示颜色变化
+	function setColor(array,interval,value){ 
+	   var clone=array.concat();//保存副本. 注意：数组是特殊的对象,是引用类型
+    sh = setInterval(function(){ 
+      	if(array.length==0) array=clone.concat();
+        for(var j in clone){
+       	    clone[j].style.backgroundColor="#fff";
+        }
+        array[0].style.backgroundColor="#00f";
+
+        if(value){
+        	if(array[0].childNodes.length>0){
+        		for(var i in array[0].childNodes){
+        			 if(parseInt(i).toString()=="NaN") continue;
+        			 if(array[0].childNodes[i].nodeName=="#text" && array[0].childNodes[i].nodeValue.trim()==value)	
+        			 {	
+        			 	  alert(value+" find!");clearInterval(sh);	
+        	    	  	  return;	
+        			 }	
+        		  }
+        		} 
+            if(array.length==1){
+        	    alert("not find "+value+"!");clearInterval(sh);
+        	    return;
+            }
+        }
+
+        array.shift();
+       	console.log(array);
+      },interval)
+
+	}
+    function search(){
+    	clearInterval(sh);
+    	var key = document.getElementById("key").value.trim();
+    	if(!key) return;
+    	arr=[];
+    	DFS(document.getElementById("root"));
+    	setColor(arr,1000,key);
+         
+    }
+	//按序存储遍历后的元素
+	var arr=[];
+	//DFS
+	function DFS(ele){
+		if(!ele || !ele.childNodes || ele.childNodes.length==0) return;
+		arr.push(ele);
+		for(var i in ele.childNodes){
+           if(parseInt(i).toString()=="NaN") continue;
+           DFS(ele.childNodes[i]);
+		}
+		return;
+	}
+	//BFS
+	var queue=[];
+	function BFS(ele){
+    	var e = queue.shift()||ele;
+    	if(e){
+    		arr.push(e);console.log(e);
+    		if(e.childNodes.length>0){
+    			for (var i = 0; i < e.childNodes.length; i++) {
+    				if(e.childNodes[i].nodeName=="#text") continue;;
+    			 	queue.push(e.childNodes[i]);
+    			};
+    	    }
+    	    else{
+    			return;
+    			}    	
+    	}
+    	else{
+    		return;
+    	}
+    	BFS();
+	}
+
+    window.onload=function(){
+    	 var root = document.getElementById("root");
+    	 // BFS(root);
+    	 DFS(root);
+    	 console.log(arr);
+    	 setColor(arr,1000,null);
+    }
+	</script>
+</head>
+<body>
+	<div class id="root">
+		Super
+		<div class="ef">
+			Apple
+			<div class="ee"> Pear </div>
+			<div class="ee"> Pig </div> 
+			<div class="ee"> Cola </div>
+			<div class="ee"> Saccer </div>
+			<div class="ee"> Book </div>
+		</div>
+		<div  class="ef">
+			Note
+			<div  class="ee">
+				Human
+				<div class="ec">Code</div>
+				<div class="ec">Man</div>
+				<div class="ec">Operate</div>
+			</div>
+			<div  class="ee">
+				Program
+				<div class="ec spe">
+					Bement
+                <div class="ecc">Cat</div>
+				</div>
+				<div class="ec">Gatt</div>
+			</div>
+		</div>
+		<div  class="ef">
+			  flash
+		</div>
+	</div>
+	
+	<div class="search">
+		<label for="">请输入搜索内容：</label><input type="text" id="key">
+		<button onclick="search()">search</button>
+	</div>
+</body>
+</html>
