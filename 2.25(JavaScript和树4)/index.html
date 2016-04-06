@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>2.25</title>
+    <link rel="stylesheet" href="css/fontello.css">
+	<style>
+	*{margin: 0;padding: 0;outline: none;background-color: #fff;}
+	body{padding: 10px;min-width: 1366px;}
+    .search{margin: 10px auto;width: 600px;}
+    .search input{height: 20px;}
+    .search button,.op button{height: 25px;width:80px;background-color: #bbb}
+    #contaniner{width: 600px; height:800px;margin: 10px auto;padding: 10px;border: 1px solid #ccc;position: relative;overflow: hidden;}
+    #contaniner div{width:100%; float:left;padding-left:10px;border: 0px solid;position: relative;left:12px;line-height: 25px;}
+     .icon-folder,.icon-folder-open{margin-right: 2px;}
+     .icon-plus{margin-left: 2px;}
+     .icon-plus:hover{color:#00f;}
+     .icon-delete:hover{color:#f00 !important;}
+	</style>
+	<script>
+    /*2-25*/
+    function search(){
+    	var key = document.getElementById("key").value.trim();
+    	if(!key) return;
+    	arr=[];
+    	DFS(document.getElementById("contaniner"));
+        console.log(arr);
+          for(var i=0;i<arr.length;i++){
+            arr[i].style.color="#000";
+            arr[i].style.fontWeight="normal";
+          }
+        for(var i=0;i<arr.length;i++){
+            if(arr[i].childNodes.length>0){
+                for(var j in arr[i].childNodes){
+                     if(parseInt(j).toString()=="NaN") continue;
+                     if(arr[i].childNodes[j].nodeName=="#text" && arr[i].childNodes[j].nodeValue.trim()==key) 
+                     {  
+                        arr[i].style.color="#f00";
+                        arr[i].style.fontWeight="bold";
+                        var cur = arr[i];
+                        while(cur!=document.getElementById("contaniner")){
+                        for(var k=0;k<cur.parentNode.childNodes.length;k++){
+                            // console.log(arr[i].parentNode.childNodes[k],k);
+                            if(cur.parentNode.childNodes[k].nodeName!="SPAN") continue;
+                            var classList = cur.parentNode.childNodes[k].classList;
+                            if(!classList || !classList.contains("icon-folder")) continue;
+                            cur.parentNode.childNodes[k].click();
+                         }
+                            cur = cur.parentNode;
+                        }
+                          return;   
+                     }  
+                  }
+                } 
+            if(i==arr.length-1){
+                alert("not find "+key+"!");
+                return;
+            }
+        }
+    }
+	//按序存储遍历后的元素
+	var arr=[];
+	//DFS
+	function DFS(ele){
+		if(!ele || !ele.childNodes || ele.childNodes.length==0) return;
+		arr.push(ele);
+		for(var i in ele.childNodes){
+           if(parseInt(i).toString()=="NaN") continue;
+           DFS(ele.childNodes[i]);
+		}
+		return;
+	}
+	//BFS
+	var queue=[];
+	function BFS(ele){
+    	var e = queue.shift()||ele;
+    	if(e){
+    		arr.push(e);console.log(e);
+    		if(e.childNodes.length>0){
+    			for (var i = 0; i < e.childNodes.length; i++) {
+    				if(e.childNodes[i].nodeName=="#text") continue;;
+    			 	queue.push(e.childNodes[i]);
+    			};
+    	    }
+    	    else{
+    			return;
+    			}    	
+    	}
+    	else{
+    		return;
+    	}
+    	BFS();
+	}
+
+    function fileOperation(e){
+     var e = e || window.event;
+     var target = e.target || e.srcElement;
+     if(target.nodeName=="SPAN"){
+        var parent = target.parentNode;
+        if(target.classList.contains("icon-folder-open")){
+        target.classList.remove("icon-folder-open");
+        target.classList.add("icon-folder");
+        for(var i=0;i<parent.childNodes.length;i++){
+            if(parent.childNodes[i].tagName!="DIV") continue;    
+            parent.childNodes[i].style.display="none";
+       }
+     }
+     else if(target.classList.contains("icon-folder")){
+        target.classList.remove("icon-folder");
+        target.classList.add("icon-folder-open");
+        for(var i=0;i<parent.childNodes.length;i++){
+            if(parent.childNodes[i].tagName!="DIV") continue;    
+            parent.childNodes[i].style.display="block";
+       }
+     }
+     else if(target.classList.contains("icon-delete")){
+        parent.parentNode.removeChild(target.parentNode);
+     }
+     else if(target.classList.contains("icon-plus")){
+        var fileType=prompt("请输入文件的类型:file or folder").trim();
+        if(fileType!="file"&&fileType!="folder")
+        {
+            alert("文件类型添加错误！");
+            return;
+        }
+        var fileName=prompt("请输入文件名字").trim();
+        if(fileName=="")
+        {
+            alert("文件名输入错误！");
+            return;
+        }
+        var ele = document.createElement("div");
+        if(fileType=="file"){  
+            ele.innerHTML= fileName+"<span class='icon-delete'></span>";        
+        }
+        else{
+            ele.innerHTML="<span class='icon-folder-open'></span>"+fileName+"<span class='icon-plus'></span> <span class='icon-delete'></span>";   
+        }
+         target.parentNode.appendChild(ele);
+     }
+     }    
+    }
+    window.onload=function(){
+    	 var root = document.getElementById("contaniner");
+         root.addEventListener("click",fileOperation,false);
+    }
+	</script>
+</head>
+<body>
+
+	<div class="search">
+		<label for="">请输入搜索内容：</label><input type="text" id="key">
+		<button onclick="search()">search</button>
+	</div>
+
+    <div id="contaniner">
+        <div class="dir">
+            <span class="icon-folder-open"></span>Apple<span class="icon-plus"></span> <span class="icon-delete"></span>
+            <div>Mac <span class="icon-delete"></span></div>
+            <div>iPhone <span class="icon-delete"></span></div>
+            <div>iPod  <span class="icon-delete"></span></div>
+        </div>
+        <div class="dir"> <span class="icon-folder-open"></span>home<span class="icon-plus"></span> <span class="icon-delete"></span>
+            <div>
+                 <span class="icon-folder-open"></span>Mark<span class="icon-plus"></span> <span class="icon-delete"></span>
+                 <div>docs  <span class="icon-delete"></span></div>
+                 <div>pics  <span class="icon-delete"></span></div>
+                 <div>mp3 <span class="icon-delete"> </div>
+            </div>
+            <div>bowe <span class="icon-delete"> </div>
+            <div>brad <span class="icon-delete"> </div>
+        </div>
+         <div class="dir"> <span class="icon-folder-open"></span>usr<span class="icon-plus"></span> <span class="icon-delete"></span>
+        <div>bin <span class="icon-delete"> </div>
+        <div>lib <span class="icon-delete"> </div>
+        </div>
+        <div>var <span class="icon-delete"> </div>
+    </div>
+</body>
+</html>
