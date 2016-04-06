@@ -43,38 +43,43 @@
                     this.style.backgroundColor="#fff";
                 }
                 event.stopPropagation();
-
             })
         }
     }
 
     function del(){
-    var e = document.getElementsByClassName("myClass")[0];
-    //如果是root节点
-    if(e == document.getElementById("root")){
-        document.getElementsByTagName("body")[0].removeChild(e);
-        return;
-    }
-     for(var i=0;i<arr.length;i++){
-        if(Array.prototype.indexOf.call(arr[i].childNodes,e)>=0){
-            arr[i].removeChild(e);
-        }
-     }
+     var e = document.getElementsByClassName("myClass")[0];
+     if(!e){alert("请先选择待删除的元素");return;}
+     e.parentNode.removeChild(e);
+    // //如果是root节点
+    // if(e == document.getElementById("root")){
+    //     document.getElementsByTagName("body")[0].removeChild(e);
+    //     return;
+    // }
+    //  for(var i=0;i<arr.length;i++){
+    //     if(Array.prototype.indexOf.call(arr[i].childNodes,e)>=0){
+    //         arr[i].removeChild(e);
+    //     }
+    //  }
     }
    function add(){
-       var newEle =  document.getElementById("newEle").value;
-       console.log(newEle);
        var e = document.getElementsByClassName("myClass")[0];
+        if(!e){alert("请先选择待插入的位置");return;}
+       var newEle =  document.getElementById("newEle").value.trim();
+       if(!newEle){alert("请输入插入的元素");return;}
+        e.innerHTML=e.innerHTML+newEle;
+        DFS(document.getElementById("root"));
+        selectElem();
        //如果是root节点
-       if(e == document.getElementById("root")){
-         document.getElementById("root").innerHTML=document.getElementById("root").innerHTML+newEle;
-         return;
-         }
-       for(var i=0;i<arr.length;i++){
-        if(arr[i]==e){
-            arr[i].innerHTML=arr[i].innerHTML+newEle;
-        }
-     }
+     //   if(e == document.getElementById("root")){
+     //     document.getElementById("root").innerHTML=document.getElementById("root").innerHTML+newEle;
+     //     return;
+     //     }
+     //   for(var i=0;i<arr.length;i++){
+     //    if(arr[i]==e){
+     //        arr[i].innerHTML=arr[i].innerHTML+newEle;
+     //    }
+     // }
    }
 	var sh;
 	//显示颜色变化
