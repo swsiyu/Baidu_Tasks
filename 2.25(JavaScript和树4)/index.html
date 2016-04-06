@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>2.25</title>
-    <link rel="stylesheet" href="css/fontello.css">
+    <link rel="stylesheet" href="css/fontello-embedded.css">
 	<style>
 	*{margin: 0;padding: 0;outline: none;background-color: #fff;}
 	body{padding: 10px;min-width: 1366px;}
@@ -117,27 +117,34 @@
         parent.parentNode.removeChild(target.parentNode);
      }
      else if(target.classList.contains("icon-plus")){
-        var fileType=prompt("请输入文件的类型:file or folder").trim();
-        if(fileType!="file"&&fileType!="folder")
-        {
-            alert("文件类型添加错误！");
-            return;
+        try{
+            var fileType=prompt("请输入文件的类型:file or folder","folder").trim();
+            if(fileType!="file"&&fileType!="folder")
+            {
+                alert("文件类型添加错误！");
+                return;
+            }
+            var fileName=prompt("请输入文件名字"," ").trim();
+            if(fileName=="")
+            {
+                alert("文件名输入错误！");
+                return;
+            }
+            var ele = document.createElement("div");
+            if(fileType=="file"){  
+                ele.innerHTML= fileName+"<span class='icon-delete'></span>";        
+            }
+            else{
+                ele.innerHTML="<span class='icon-folder-open'></span>"+fileName+"<span class='icon-plus'></span> <span class='icon-delete'></span>";    
+            }
+             target.parentNode.appendChild(ele);
         }
-        var fileName=prompt("请输入文件名字").trim();
-        if(fileName=="")
-        {
-            alert("文件名输入错误！");
-            return;
+        catch(e){
+            // throw(e);
+           alert(e.message);
         }
-        var ele = document.createElement("div");
-        if(fileType=="file"){  
-            ele.innerHTML= fileName+"<span class='icon-delete'></span>";        
-        }
-        else{
-            ele.innerHTML="<span class='icon-folder-open'></span>"+fileName+"<span class='icon-plus'></span> <span class='icon-delete'></span>";   
-        }
-         target.parentNode.appendChild(ele);
-     }
+        
+      }
      }    
     }
     window.onload=function(){
