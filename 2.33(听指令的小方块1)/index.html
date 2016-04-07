@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>2.33</title>
+  <style>
+  *{margin: 0;padding: 0;outline: none;}
+  body{padding: 10px;}
+  .con_top{width: 400px;height: 40px;margin: 0 auto;}
+  .con_top div{float:left;width: 40px;height: 40px;line-height: 40px;text-align: center;}
+  .con_right{float:left;width: 40px;position: relative;left: 50%;margin-left: -240px;}
+  .con_right div{width: 40px;height: 40px;line-height: 40px;text-align: center;}
+  #container{
+    /*box-sizing:;*/
+    position: relative;
+    width: 400px;
+    height: 400px;
+    border: 1px solid #000;
+    margin: 0 auto;
+   }
+   #container div{
+    box-sizing:border-box;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ddd;
+    float: left;
+   }
+   #container #active{
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top:200px;
+    left:200px;
+    background-color: red;
+    transition:transform 1s;
+    transition:left 1s;
+    transition:top 1s;
+    -webkit-transition: transform 1s;
+    /*background: -webkit-gradient(linear, 0 0, 100% 0, from(blue), to(red),color-stop(0.4, red));*/
+   }
+   #active div{width: 10px;height: 100%;background-color: blue;border: 2px solid blue;}
+   .btns{width: 410px;margin: 20px auto;}
+   .btns button{width: 86px;height: 30px;line-height:30px;border-radius: 5px;background-color: #2F78B9;color:white;margin-right: 10px;}
+  </style>
+  <script>
+    var unit=40; //px
+    var total=400; //px
+    var MoveList={
+      "flag":"left",
+      "left":{"key":"left","op":"-"},
+      "right":{"key":"left","op":"+"},
+      "up":{"key":"top","op":"-"},
+      "down":{"key":"top","op":"+"},
+    }
+    function go(){
+       var active = document.getElementById("active");
+       var key = MoveList[MoveList["flag"]]["key"];
+       var op = MoveList[MoveList["flag"]]["op"];
+       //left up
+       if((MoveList["flag"]=="left"||MoveList["flag"]=="up") && parseInt(window.getComputedStyle(active)[key])>=unit)
+       active.style[key]=eval(parseInt(window.getComputedStyle(active)[key]) +op+ unit)+"px";
+
+      //right down
+       if((MoveList["flag"]=="right"||MoveList["flag"]=="down") && parseInt(window.getComputedStyle(active)[key])<(total-unit))
+       active.style[key]=eval(parseInt(window.getComputedStyle(active)[key]) +op+ unit)+"px";
+    }
+
+    function initRotate(){
+      var active=document.getElementById("active")
+      active.style.transform=active.style.webkitTransform="rotate(0deg)";
+    }
+
+    function rotate(flag){
+        var active = document.getElementById("active");
+        var str= active.style.webkitTransform;
+        var start=str.indexOf("(");
+        var end=str.indexOf("deg");
+        var num = parseInt(str.substring(start+1,end));
+        if(flag=="left"){
+          active.style.transform=active.style.webkitTransform="rotate("+eval(num-90)+"deg)";
+        }
+        else if(flag=="right"){
+          active.style.transform=active.style.webkitTransform="rotate("+eval(num+90)+"deg)";
+        }
+        else if(flag=="back"){
+          active.style.transform=active.style.webkitTransform="rotate("+eval(num+180)+"deg)";
+        }
+    }
+    //逆时针
+    function left(){
+       rotate("left");
+      if(MoveList["flag"]=="left") 
+        {MoveList["flag"]="down";return;}
+      if(MoveList.flag=="down") 
+        {MoveList.flag="right";return;}
+      if(MoveList.flag=="right") 
+        {MoveList.flag="up";return;}
+      if(MoveList.flag=="up") 
+        {MoveList.flag="left";return;}
+    }
+    //顺指针
+    function right(){
+       rotate("right");
+      if(MoveList["flag"]=="left") 
+        {MoveList["flag"]="up";return;}
+      if(MoveList.flag=="up") 
+        {MoveList.flag="right";return;}
+      if(MoveList.flag=="right") 
+        {MoveList.flag="down";return;}
+      if(MoveList.flag=="down") 
+        {MoveList.flag="left";return;}
+    }
+
+    function back(){
+       rotate("back");
+       switch(MoveList["flag"]){
+        case "left":
+          MoveList["flag"]="right";
+          break;
+        case "right":
+          MoveList["flag"]="left";
+          break;
+        case "up":
+          MoveList["flag"]="down";
+          break;
+        case "down":
+          MoveList["flag"]="up";
+          break;   
+       }
+    }
+
+    function up(){MoveList.flag="up";}
+    function down(){MoveList.flag="down";}
+
+    window.onload=function(){
+      initRotate();
+    }
+  </script>
+</head>
+<body>
+  <div class="con_top">
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+      <div>4</div>
+      <div>5</div>
+      <div>6</div>
+      <div>7</div>
+      <div>8</div>
+      <div>9</div>
+      <div>10</div>
+  </div>
+   <div class="con_right">
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+      <div>4</div>
+      <div>5</div>
+      <div>6</div>
+      <div>7</div>
+      <div>8</div>
+      <div>9</div>
+      <div>10</div>
+  </div>
+  <div id="container">
+    <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div>
+    <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div>
+    <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div>
+    <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div>
+    <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div>
+    <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div>
+    <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div>
+    <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div>
+    <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div>
+    <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div>
+    <div class="rot" id="active"><div></div></div>
+  </div>
+  <div class="btns">
+    <button onclick="go()">GO</button>
+    <button onclick="left()">TUN LEF</button>
+    <button onclick="right()">TUN RIG</button>
+    <button onclick="back()">TUN BAC</button>
+  </div>
+</body>
+</html>
