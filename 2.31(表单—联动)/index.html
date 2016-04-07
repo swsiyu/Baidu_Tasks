@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>2.31</title>
+    <style>
+    *{margin:0;padding:0;outline: none;}
+    body{padding: 10px;}
+    form{
+        width: 500px;
+        margin: 40px auto;
+        line-height: 80px;
+        font-weight: bold;
+    }
+    form *{border-radius: 5px;}
+    form input[type='radio']{
+        margin-right:10px;
+        margin-left: 40px;
+        line-height: 80px;
+        width: 15px;
+        height: 15px;
+    }
+    form input[type='radio']:checked:hover{
+        background:#00f;
+    }
+    #u1,#u2{
+        line-height: 30px;
+        margin-top: 10px;
+    }
+    #u1 select:nth-child(2){width: 150px;height: 30px;}
+    #u1 select:nth-child(3){width: 200px;height: 30px;}
+    #u2 input{width: 300px;height: 28px;border:1px solid gray;}
+    </style>
+
+</head>
+<body>
+     <form action="#" id="fm">
+      <input type="radio" name="group" checked="checked" id="student"><label for="student">在校生</label>
+      <input type="radio" name="group" id="noStudent"><label for="noStudent">非在校生</label>
+      <div id="u1">
+          <label for="">学校</label>
+          <select name="" id="city">
+              <option value="北京">北京</option>
+              <option value="上海">上海</option>
+              <option value="天津">天津</option>
+              <option value="南京">南京</option>
+          </select>
+          <select name="" id="unity"></select>
+      </div>
+      <div id="u2">
+          <label for="">就业单位</label>
+          <input type="text"/>
+      </div>
+    </form>
+  <script>
+    var cityList={
+        "北京":["北京大学","清华大学","北京邮电大学","北京师范大学"],
+        "南京":["南京大学","东南大学","南京理工大学","南京邮电大学"],
+        "上海":["上海交通大学","复旦大学","上海大学","上海理工大学"],
+        "天津":["天津大学","南开大学"]
+    }
+    function showlabel(e){
+        var e=e||window.event;
+        if(e.target.id=="student") {
+            document.getElementById("u1").style.display="block";
+            document.getElementById("u2").style.display="none";
+        }
+        else if(e.target.id=="noStudent") {
+            document.getElementById("u2").style.display="block";
+            document.getElementById("u1").style.display="none";
+        }
+    }
+    function initCity(){
+        var city = document.getElementById("city");
+        city.innerHTML="";
+        for(var item in cityList){
+            city.innerHTML+="<option>"+item+"</option>"
+        }
+    }
+    function changeCity(){
+        var obj = document.getElementById("city");
+        var cityName = obj.options[obj.selectedIndex].text;
+        var unity =  document.getElementById("unity");
+        unity.innerHTML="";
+        for(var i=0;i<cityList[cityName].length;i++){
+            unity.innerHTML+="<option>"+cityList[cityName][i]+"</option>"
+        }
+
+    }
+     document.getElementById("fm").addEventListener('click',showlabel,false);
+     document.getElementById("student").click();  
+     
+     window.onload=function(){
+      initCity();
+      changeCity();
+      document.getElementById("city").addEventListener("change",changeCity,false);
+     }
+    </script>
+</body>
+</html>
