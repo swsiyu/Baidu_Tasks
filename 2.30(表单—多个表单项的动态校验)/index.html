@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>2.30</title>
+    <style>
+    *{margin:0;padding:0;outline: none;}
+    body{padding: 10px;}
+    h1{width: 500px;margin: 10px auto;}
+    form{
+        width: 500px;
+        margin: 40px auto;
+        line-height: 40px;
+        font-weight: bold;
+    }
+    label {
+    display: inline-block;
+    width: 69px;
+    text-align: right;
+   }
+    .message{width: 300px;height:20px;line-height:20px;margin: 0px auto;border: 0px solid;}
+    form *{border-radius: 5px;}
+    form input[type='text']{width:400px;height: 40px;margin: 0 10px;margin-top:30px;border:1px solid gray;font-size: 20px;}
+    input.tip{box-shadow: 0 0 0 1px gray;}
+    span.tip{color: gray}
+    input.error{box-shadow: 0 0 0 1px red;}
+    span.error{color:red;}
+    input.ok{box-shadow: 0 0 0 1px green;}
+    span.ok{color:green;}
+    form input[type='submit']{height: 40px;width: 70px;background-color: #2F78B9;color: white;font-size: 18px;font-weight: bold;border-radius: 10px;float: right;}
+    </style>
+
+    <script>
+    function valName(value){
+        var arr = value.split("");
+        var pattern = /^[\u4E00-\u9FA5]+$/;
+        var cnt=0;
+        arr.forEach(function(item,index,array){
+            if(item==" ") return;
+                cnt++
+            if(pattern.test(item))
+                cnt++;
+        });
+        if(cnt>=4 && cnt<=16){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    function valPwd(value){
+        var pattern = /^[a-z0-9A-Z]{6,10}$/;
+        if(pattern.test(value)){return true;}
+        else{return false;}
+    }
+    function valCofm(value){
+        if(value==document.getElementsByName("pwd")[0].value){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
+    function valEmail(value){
+        var pattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        if(pattern.test(value)){return true;}
+        else{return false;}
+    }
+    function valPhone(value){
+        var pattern = /^(13[0-9]|14[0-9]|15[0-9]|18[0-9])\d{8}$/;
+        if(pattern.test(value)){return true;}
+        else{return false;}
+    }
+    function validate(e){
+        var e=e||window.event;
+        e.preventDefault();
+         //触发失效，需要使用下面的方式手动触发
+         // document.getElementsByName("name")[0].blur();
+         //非IE
+         for(var item in valList){
+            var obj = document.getElementsByName(item)[0];
+            var ev = document.createEvent("MouseEvent");
+            ev.initEvent('blur',true,false);
+            obj.dispatchEvent(ev);
+         }
+        if(document.getElementsByClassName("ok").length==(5*2)){
+            alert("提交成功！");
+        }
+        else{
+              alert("提交失败！");
+        }
+
+    }
+   
+    var tipList={
+        "name":"必填，长度为4~16个字符",
+        "pwd":"必填，长度6-10个字符(字母或数字)",
+        "comfirmPwd":"必填，请再次输入相同密码",
+        "email":"必填，请输入正确的邮箱格式",
+        "phone":"必填，请输入正确的手机格式"
+       }
+    var valList={
+        "name":{"empty":"名称不能为空","error":"名称格式错误","ok":"名称格式正确"},
+        "pwd":{"empty":"密码不能为空","error":"密码格式错误","ok":"密码可用"},
+        "comfirmPwd":{"empty":"确认密码不能为空","error":"确认密码如上次输入不同","ok":"确认密码与上次输入相同"},
+        "email":{"empty":"邮箱不能为空","error":"邮箱格式错误","ok":"邮箱格式正确"},
+        "phone":{"empty":"手机不能为空","error":"手机格式错误","ok":"手机格式正确"},
+    }
+    var valFunc={
+        "name":function(value){return valName(value)},
+        "pwd":function(value){return valPwd(value)},
+        "comfirmPwd":function(value){return valCofm(value)},
+        "email":function(value){return valEmail(value)},
+        "phone":function(value){return valPhone(value)},
+    }
+    function myFocus(name){
+       document.getElementsByName(name)[0].className="";
+       document.getElementsByName(name)[0].nextSibling.innerHTML="<span class='tip'>"+tipList[name]+"</span>";
+    }
+
+     function myBlur(name){
+        var e=e||window.event;
+        var value = document.getElementsByName(name)[0].value.trim();
+        e.target.className="";
+        if(value==""){
+            e.target.classList.add("error");
+            e.target.nextSibling.innerHTML='<span class="error">'+valList[name]["empty"]+'</span>';
+            return;
+        }
+        if(valFunc[name](value)){
+            e.target.classList.add("ok");
+            e.target.nextSibling.innerHTML="<span class='ok'>"+valList[name]["ok"]+"</span>";
+            return;
+        }
+        else{
+            e.target.classList.add("error");
+            e.target.nextSibling.innerHTML="<span class='error'>"+valList[name]["error"]+"</span>";
+            return;
+        }
+    }
+    </script>
+</head>
+<body>
+     <form action="">
+    <label for="">名称</label>
+    <input type="text" name="name" class="" onfocus="myFocus(this.name)" onblur="myBlur(this.name)"/><div class="message"></div>
+
+    <label for="">密码</label>
+    <input type="text" name="pwd" class="" onfocus="myFocus(this.name)" onblur="myBlur(this.name)"/><div class="message"></div>
+
+    <label for="">密码确认</label>
+    <input type="text" name="comfirmPwd" class="" onfocus="myFocus(this.name)" onblur="myBlur(this.name)"/><div class="message"></div>
+
+    <label for="">邮箱</label>
+    <input type="text" name="email" class="" onfocus="myFocus(this.name)" onblur="myBlur(this.name)"/><div class="message"></div>
+
+    <label for="">手机</label>
+    <input type="text"  name="phone" class="" onfocus="myFocus(this.name)" onblur="myBlur(this.name)"/><div class="message"></div>
+
+    <input class="" type="submit" onclick='validate()' value="验证"/>
+    </form>
+
+</body>
+</html>
