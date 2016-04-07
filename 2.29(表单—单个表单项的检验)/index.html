@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>2.29</title>
+    <style>
+    *{margin:0;padding:0;outline: none;}
+    body{padding: 10px;}
+    h1{width: 500px;margin: 10px auto;}
+    form{
+        width: 500px;
+        margin: 40px auto;
+        line-height: 40px;
+        font-weight: bold;
+    }
+    .message{width: 400px;height:20px;line-height:20px;margin: 5px auto;border: 0px solid;}
+    form *{border-radius: 5px;}
+    form input[type='text']{width:350px;height: 40px;margin: 0 10px;border:1px solid gray;font-size: 20px;}
+    input.tip{box-shadow: 0 0 0 1px gray;}
+    span.tip{color: gray}
+    input.error{box-shadow: 0 0 0 1px red;}
+    span.error{color:red;}
+    input.ok{box-shadow: 0 0 0 1px green;}
+    span.ok{color:green;}
+    form input[type='submit']{height: 40px;width: 70px;background-color: #2F78B9;color: white;font-size: 18px;font-weight: bold;border-radius: 10px;}
+    </style>
+    <script>
+    function validate(e){
+        var e=e||window.event;
+        e.preventDefault();
+        var value = e.target.previousSibling.value.trim();
+        e.target.previousSibling.className="";
+        if(value==""){
+            e.target.previousSibling.classList.add("error");
+            document.getElementsByClassName("message")[0].innerHTML="<span class='error'>姓名不能为空</span>";
+            return;
+        }
+        var arr = value.split("");
+        var pattern = /^[\u4E00-\u9FA5]+$/;
+        var cnt=0;
+        arr.forEach(function(item,index,array){
+            if(item==" ") return;
+                cnt++
+            if(pattern.test(item))
+                cnt++;
+        });
+        if(cnt>=4 && cnt<=16){
+            e.target.previousSibling.classList.add("ok");
+            document.getElementsByClassName("message")[0].innerHTML="<span class='ok'>名称格式正确</span>";
+            return;
+        }
+        else{
+            e.target.previousSibling.classList.add("error");
+            document.getElementsByClassName("message")[0].innerHTML="<span class='error'>名称格式错误</span>";
+            return;
+        }
+    }
+    </script>
+</head>
+<body>
+    <h1>1.使用js验证</h1>
+     <form action="">
+    <label for="">名称</label>
+    <input type="text" pattern='\w{4,16}'><input class="" type="submit" onclick='validate()' value="验证"/>
+    <div class="message"><span class="tip">必填，长度为4~16个字符<span></div>
+    </form>
+    
+    <h1>2.使用表达验证特性pattern验证</h1>
+    <form action="">
+    <label for="">名称 <input type="text" pattern='\w{4,16}'></label>
+    <input type="submit" value="验证"/>
+    </form>
+
+</body>
+</html>
