@@ -44,7 +44,7 @@ var wf = (function() {
 				ele.className = "img";
 				layer.appendChild(ele);
 				var top = eval(parseInt(window.outerHeight - 50) / 2 - parseInt(layer.getElementsByTagName("img")[0].naturalHeight) / 2);
-				if (top > 0) {
+				if (top > 10) {
 					ele.style.left = eval(parseInt(window.getComputedStyle(layer).width) / 2 - parseInt(layer.getElementsByTagName("img")[0].naturalWidth) / 2) + "px";
 					ele.style.top = top + "px";
 				} else {
