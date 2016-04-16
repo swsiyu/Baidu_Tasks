@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>album</title>
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/main.css">
+	<script src="js/waterfall.js"></script>
+	<script>
+
+	window.onload=function(){
+		/* 使用方法:
+			new wf.waterfall(data,option);
+		    理想的设计应该是
+			data 和 option 是两个对象。data是数据，option是配置项。时间原因，demo暂时实现了一个对象参数。
+ 			obj={"id":"","elements":"","columnGap":10,"columnCount":4;}
+ 			id是父容器的id，
+ 			elements是子对象li的class
+ 			columnGap是间距 默认10px，
+ 			columnCount是显示的列数 默认4
+ 		*/
+	
+		var my=new wf.waterfall({"id":"album","elements":"cols","columnGap":10,"columnCount":4}) 
+	}
+	</script>	
+</head>
+<body>
+	<h1>瀑布流相册</h1>
+	<ul class="imgs" id="album">
+		<li class='cols'><img src="imgs/1.jpg" alt=""  title="1" width="" height=""></li>
+		<li class='cols'><img src="imgs/2.jpg" alt=""  title="2" width="" height=""></li>
+		<li class='cols'><img src="imgs/3.jpg" alt=""  title="3" width="" height=""></li>
+		<li class='cols'><img src="imgs/4.jpg" alt=""  title="4" width="" height=""></li>
+		<li class='cols'><img src="imgs/5.jpg" alt=""  title="5" width="" height=""></li>
+		<li class='cols'><img src="imgs/6.jpg" alt=""  title="6" width="" height=""></li>
+		<li class='cols'><img src="imgs/7.jpg" alt=""  title="7" width="" height=""></li>
+		<li class='cols'><img src="imgs/8.jpg" alt=""  title="8" width="" height=""></li>
+		<li class='cols'><img src="imgs/9.jpg" alt=""  title="9" width="" height=""></li>
+		<li class='cols'><img src="imgs/10.jpg" alt="" title="10"  width="" height=""></li>
+	</ul>
+</body>
+</html>
